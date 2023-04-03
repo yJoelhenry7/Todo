@@ -1,0 +1,13 @@
+body {
+    font-family: sans-serif;
+    background: #ffffff;
+  }
+#center{
+  text-align: center;
+}
+.main{
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-inline: 5px solid red;
+}

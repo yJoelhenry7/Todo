@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+   <meta charset="UTF-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <title>Todo Manager</title>
+   <link rel="stylesheet" href="css/style.css" />
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <script src="https://cdn.tailwindcss.com"></script>
+ </head>
+ <body>
+  <div class="grid grid-cols-6">
+    <div class="col-start-3 col-span-2">
+      <%- include('header.ejs') %>
+    </div>
+  </div>
+  <form>
+    <div class="flex gap-2 py-4">
+      <div class="flex-auto w-64">
+        <input type="text" class="border border-gray-300 text-gray-900 text-sm rounded w-full p-2" placeholder="What's next?" autofocus required>
+      </div>
+      <div class="flex-auto w-32">
+        <input type="date" class="border border-gray-300 text-gray-900 text-sm rounded w-full p-2 leading-4	">
+      </div>
+      <div class="flex-none">
+        <button type="submit" class="text-white bg-green-600 hover:bg-green-700 font-medium rounded text-sm px-5 py-2 mr-2 mb-2">Add</button>
+      </div>            
+    </div>
+  </form>
+  <%- include('todo.ejs') %>
+   <script src="script.js"></script>
+ </body>
+</html>
