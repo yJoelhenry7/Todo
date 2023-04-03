@@ -13,6 +13,10 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({extended:false}));
 var date = new Date();
 var rdate = date.toISOString().split('T')[0];
+const csrf = require("tiny-csrf");
+const cookieParser = require("cookie-parser");
+app.use(cookieParser("ssh! some secret string"));
+app.use(csrf("this_should_be_32_character_long", ["POST", "PUT", "DELETE"]));
 
 app.get("/", async (request, response) => {
   Todo.findAll().then((todos) => {
@@ -28,12 +32,20 @@ app.get("/", async (request, response) => {
         await dueLater.push(todo.dataValues);
       }
     });
-    response.render("index", {
-      l: { todos },
-      OD: overDue,
-      DL: dueLater,
-      DT: dueToday,
-    });
+    if (request.accepts("html")) {
+      response.render("index", {
+        OD: overDue,
+        DL: dueLater,
+        DT: dueToday,
+        csrfToken: request.csrfToken(),
+      });
+    } else {
+      response.json({
+        OD: overDue,
+        DL: dueLater,
+        DT: dueToday,
+      });
+    }
   });
 });
 
