@@ -11,3 +11,6 @@ body {
   text-align: center;
   border-inline: 5px solid red;
 }
+.Todo-Item:hover .trash-icon{
+  display: block;
+}

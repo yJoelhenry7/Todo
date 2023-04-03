@@ -10,8 +10,9 @@ const path = require("path");
 app.use(bodyParser.json());
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.urlencoded({extended:false}));
 var date = new Date();
-var rdate = date.toLocaleDateString("en-CA");
+var rdate = date.toISOString().split('T')[0];
 
 app.get("/", async (request, response) => {
   Todo.findAll().then((todos) => {
@@ -55,7 +56,7 @@ app.post("/todos", async (request, response) => {
       title: request.body.title,
       dueDate: request.body.dueDate,
     });
-    return response.json(todo);
+    return response.redirect("/")
   } catch (error) {
     return response.status(422).json(error);
   }
