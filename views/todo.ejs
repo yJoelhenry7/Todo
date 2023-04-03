@@ -21,7 +21,7 @@
         <ul class="list-none pl-4">
             <% for(var i=0;i<OD.length; i++){%>
             <li class="Todo-Item"><div class="flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-purple-50">
-                <input id="todo-checkbox-<%= OD[i].id %>" type="checkbox"  <%=OD[i].completed ? "checked" : ""%> onclick="updateTodo(<%= OD[i].id%>)" value="" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300">
+                <input id="todo-checkbox-<%= OD[i].id %>" type="checkbox"  <%=OD[i].completed ? "checked" : ""%> onclick="updateTodo(<%= OD[i].id%>, <%= OD[i].completed %>)" value="" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300">
                 <label for="todo-checkbox-<%= OD[i].id %>" class="ml-2 text-sm text-gray-600 cursor-pointer"><%= OD[i].title%></label>
                 <a class="hidden trash-icon" href="#!" onclick="deleteTodo(<%=OD[i].id%>)">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -38,7 +38,7 @@
         <ul class="list-none pl-4">
             <% for(var i=0;i<DT.length; i++){%>
             <li class="Todo-Item"><div class="flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-purple-50">
-                <input id="todo-checkbox-<%= DT[i].id %>" type="checkbox" <%=DT[i].completed ? "checked" : ""%> onclick="updateTodo(<%= DT[i].id%>)" value="" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300">
+                <input id="todo-checkbox-<%= DT[i].id %>" type="checkbox" <%=DT[i].completed ? "checked" : ""%> onclick="updateTodo(<%= DT[i].id%>, <%= DT[i].completed %>)" value="" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300">
                 <label for="todo-checkbox-<%= DT[i].id %>" class="ml-2 text-sm text-gray-600 cursor-pointer"><%= DT[i].title%></label>
                 <a class="hidden trash-icon" href="#!" onclick="deleteTodo(<%=DT[i].id%>)">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -58,7 +58,7 @@
         <ul class="list-none pl-4">
             <% for(var i=0;i<DL.length; i++){%>
             <li class="Todo-Item"><div class="flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-purple-50">
-                <input id="todo-checkbox-<%= DL[i].id %>" type="checkbox" <%=DL[i].completed ? "checked" : ""%> onclick="updateTodo(<%= DL[i].id%>)" value="" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300">
+                <input id="todo-checkbox-<%= DL[i].id %>" type="checkbox" <%=DL[i].completed ? "checked" : ""%> onclick="updateTodo(<%= DL[i].id%>, <%= DL[i].completed %>)" value="" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300">
                 <label for="todo-checkbox-<%= DL[i].id %>" class="ml-2 text-sm text-gray-600 cursor-pointer"><%= DL[i].title%></label>
                 <a class="hidden trash-icon" href="#!" onclick="deleteTodo(<%=DL[i].id%>)">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
