@@ -38,7 +38,7 @@ app.get("/", async (request, response) => {
 });
 
 app.get("/todos", async (request, response) => {
-  console.log("Todo List");
+  // console.log("Todo List");
   try {
     const todo = await Todo.findAll();
     return response.json(todo);
@@ -62,7 +62,7 @@ app.post("/todos", async (request, response) => {
 });
 
 app.put("/todos/:id/markAsCompleted", async (request, response) => {
-  console.log("We Have to Update a todo With ID:", request.params.id);
+  // console.log("We Have to Update a todo With ID:", request.params.id);
   const todo = await Todo.findByPk(request.params.id);
   try {
     const updatedTodo = await todo.markAsCompleted();
@@ -73,8 +73,14 @@ app.put("/todos/:id/markAsCompleted", async (request, response) => {
   }
 });
 
-app.delete("/todos/:id", (request, response) => {
-  console.log("Delete a todo by ID :", request.params.id);
+app.delete("/todos/:id", async(request, response) => {
+  // console.log("Delete a todo by ID :", request.params.id);
+  try {
+    await Todo.remove(request.params.id);
+    return response.json({ success: true });
+  } catch (error) {
+    return response.status(422).json(error);
+  }
 });
 
 module.exports = app;
