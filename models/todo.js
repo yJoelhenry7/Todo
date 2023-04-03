@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     static addTodo({ title, dueDate }) {
       return this.create({ title: title, dueDate: dueDate, completed: false });
     }
+    // Remove a Todo using ID
     static async remove(id) {
       return this.destroy({
         where: {
@@ -20,12 +21,22 @@ module.exports = (sequelize, DataTypes) => {
         },
       });
     }
+    // Get all completed Todos
+    static async getCompleted() {
+      const complete = await this.findAll({
+        where: { completed: true },
+      });
+      return complete;
+    }
+    // mark as Complete
     markAsCompleted() {
       return this.update({ completed: true });
     }
+    // setCompletion Status
     setCompletionStatus(status){
       return this.update({completed :status});
     }
+    // Get All the Todos
     static getTodos() {
       return this.findAll();
     }

@@ -19,6 +19,7 @@ app.use(cookieParser("ssh! some secret string"));
 app.use(csrf("this_should_be_32_character_long", ["POST", "PUT", "DELETE"]));
 
 app.get("/", async (request, response) => {
+  const complete = await Todo.getCompleted();
   Todo.findAll().then((todos) => {
     var overDue = [];
     var dueToday = [];
@@ -37,6 +38,7 @@ app.get("/", async (request, response) => {
         OD: overDue,
         DL: dueLater,
         DT: dueToday,
+        complete : complete,
         csrfToken: request.csrfToken(),
       });
     } else {
@@ -50,7 +52,7 @@ app.get("/", async (request, response) => {
 });
 
 app.get("/todos", async (request, response) => {
-  // console.log("Todo List");
+  console.log("Todo List");
   try {
     const todo = await Todo.findAll();
     return response.json(todo);
@@ -74,7 +76,7 @@ app.post("/todos", async (request, response) => {
 });
 
 app.put("/todos/:id", async (request, response) => {
-  // console.log("We Have to Update a todo With ID:", request.params.id);
+  console.log("We Have to Update a todo With ID:", request.params.id);
   const todo = await Todo.findByPk(request.params.id);
   try {
     const updatedTodo = await todo.setCompletionStatus(request.body.completed);
@@ -86,7 +88,7 @@ app.put("/todos/:id", async (request, response) => {
 });
 
 app.delete("/todos/:id", async(request, response) => {
-  // console.log("Delete a todo by ID :", request.params.id);
+  console.log("Delete a todo by ID :", request.params.id);
   try {
     await Todo.remove(request.params.id);
     return response.json({ success: true });
