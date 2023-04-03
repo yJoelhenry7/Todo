@@ -49,10 +49,9 @@ app.get("/todos", async (request, response) => {
 });
 
 app.post("/todos", async (request, response) => {
-  console.log("Creating a Todo", request.body);
-  //   Todo
+  // console.log("Creating a Todo", request.body);
   try {
-    const todo = await Todo.addTodo({
+      await Todo.addTodo({
       title: request.body.title,
       dueDate: request.body.dueDate,
     });
