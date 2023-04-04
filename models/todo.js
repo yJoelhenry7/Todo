@@ -13,21 +13,23 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey:'userId'
       })
     }
-    static addTodo({ title, dueDate }) {
-      return this.create({ title: title, dueDate: dueDate, completed: false });
+    // Add a new Todo
+    static addTodo({ title, dueDate ,userId}) {
+      return this.create({ title: title, dueDate: dueDate, completed: false,userId });
     }
     // Remove a Todo using ID
-    static async remove(id) {
+    static async remove(id,userId) {
       return this.destroy({
         where: {
           id,
+          userId
         },
       });
     }
     // Get all completed Todos
-    static async getCompleted() {
+    static async getCompleted(userId) {
       const complete = await this.findAll({
-        where: { completed: true },
+        where: { completed: true ,userId},
       });
       return complete;
     }

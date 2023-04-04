@@ -81,17 +81,18 @@ app.get("/", async (request, response) => {
 });
 
 app.get("/todos",connectEnsureLogin.ensureLoggedIn(), async (request, response) => {
-  const complete = await Todo.getCompleted();
+  const userId = request.user.id;
+  const complete = await Todo.getCompleted(userId);
   Todo.findAll().then((todos) => {
     var overDue = [];
     var dueToday = [];
     var dueLater = [];
     todos.map(async (todo) => {
-      if (todo.dataValues.dueDate < rdate) {
+      if (todo.dataValues.dueDate < rdate && todo.dataValues.completed===false && todo.dataValues.userId==userId) {
         await overDue.push(todo.dataValues);
-      } else if (todo.dataValues.dueDate === rdate) {
+      } else if (todo.dataValues.dueDate === rdate && todo.dataValues.completed===false && todo.dataValues.userId==userId) {
         await dueToday.push(todo.dataValues);
-      } else if(todo.dataValues.dueDate > rdate){
+      } else if(todo.dataValues.dueDate > rdate && todo.dataValues.completed===false  && todo.dataValues.userId==userId){
         await dueLater.push(todo.dataValues);
       }
     });
@@ -118,8 +119,9 @@ app.post("/todos",connectEnsureLogin.ensureLoggedIn(), async (request, response)
       await Todo.addTodo({
       title: request.body.title,
       dueDate: request.body.dueDate,
+      userId : request.user.id,
     });
-    return response.redirect("/")
+    return response.redirect("/todos")
   } catch (error) {
     return response.status(422).json(error);
   }
@@ -140,7 +142,7 @@ app.put("/todos/:id", connectEnsureLogin.ensureLoggedIn(),async (request, respon
 app.delete("/todos/:id", connectEnsureLogin.ensureLoggedIn(),async(request, response) => {
   console.log("Delete a todo by ID :", request.params.id);
   try {
-    await Todo.remove(request.params.id);
+    await Todo.remove(request.params.id,request.user.id);
     return response.json({ success: true });
   } catch (error) {
     return response.status(422).json(error);
