@@ -40,13 +40,20 @@ passport.use(new localStrategy({
    usernameField: 'email',
    passwordField:'password'
 }, (username,password,done)=>{
-  User.findOne({where: {email:username,password:password}})
-  .then((user)=>{
-    return done(null,user)
+  User.findOne({where: {email:username}})
+  .then(async(user)=>{
+   const result = await bcrypt.compare(password,user.password)
+   if(result){
+     return done(null,user);
+   }else{
+    return done("Invalid Password");
+   }
+
   }).catch((error)=>{
-    return (error)
+    return done(error);
   })
 }))
+
 // Sereializing user information
 passport.serializeUser((user,done)=>{
   console.log("Serializing user in session", user.id)
@@ -65,7 +72,7 @@ passport.deserializeUser((id,done)=>{
 
 const { Todo,User } = require("./models");
 
-// ports
+// Routes
 app.get("/", async (request, response) => {
    response.render("index",{
     title:"Todo Application",
@@ -143,6 +150,7 @@ app.delete("/todos/:id", async(request, response) => {
 // -------------------------------------Signup Route--------------------------------------
 app.get("/signup",(request,response) =>{
   response.render("signup",{
+    title:"Sign Up",
     csrfToken: request.csrfToken(),
   });
 })
@@ -168,5 +176,16 @@ app.post("/users",async(request,response)=>{
   }
 })
 // --------------------------------------------------------------------------------------
+
+app.get("/login",(request,response)=>{
+  response.render("login" ,{
+    title:"Login",
+    csrfToken:request.csrfToken(),
+  });
+})
+app.post("/session",passport.authenticate('local',{failureRedirect:"/login"}) ,(request,response)=>{
+  console.log(request.user);
+  response.redirect("/todos");
+})
 
 module.exports = app;
