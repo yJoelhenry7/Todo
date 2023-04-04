@@ -112,7 +112,7 @@ app.get("/todos",connectEnsureLogin.ensureLoggedIn(), async (request, response) 
     }
   });
 });
-app.post("/todos", async (request, response) => {
+app.post("/todos",connectEnsureLogin.ensureLoggedIn(), async (request, response) => {
   // console.log("Creating a Todo", request.body);
   try {
       await Todo.addTodo({
@@ -125,7 +125,7 @@ app.post("/todos", async (request, response) => {
   }
 });
 
-app.put("/todos/:id", async (request, response) => {
+app.put("/todos/:id", connectEnsureLogin.ensureLoggedIn(),async (request, response) => {
   console.log("We Have to Update a todo With ID:", request.params.id);
   const todo = await Todo.findByPk(request.params.id);
   try {
@@ -137,7 +137,7 @@ app.put("/todos/:id", async (request, response) => {
   }
 });
 
-app.delete("/todos/:id", async(request, response) => {
+app.delete("/todos/:id", connectEnsureLogin.ensureLoggedIn(),async(request, response) => {
   console.log("Delete a todo by ID :", request.params.id);
   try {
     await Todo.remove(request.params.id);
@@ -175,7 +175,7 @@ app.post("/users",async(request,response)=>{
     console.log(error);
   }
 })
-// --------------------------------------------------------------------------------------
+// --------------------------------------------Login Route------------------------------------------
 
 app.get("/login",(request,response)=>{
   response.render("login" ,{
@@ -186,6 +186,13 @@ app.get("/login",(request,response)=>{
 app.post("/session",passport.authenticate('local',{failureRedirect:"/login"}) ,(request,response)=>{
   console.log(request.user);
   response.redirect("/todos");
+})
+// --------------------------------------------Signout Route------------------------------------------------------
+app.get("/signout",(request,response,next)=>{
+   request.logOut((err)=>{
+    if(err){return next(err); }
+    response.redirect("/");
+   })
 })
 
 module.exports = app;
