@@ -16,7 +16,8 @@ const connectEnsureLogin = require('connect-ensure-login');
 const session = require('express-session');
 const localStrategy = require('passport-local');
 const { error } = require("console");
-
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 // set ejs as a View Engine
 app.set("view engine", "ejs");
 // middlewares
@@ -139,21 +140,22 @@ app.delete("/todos/:id", async(request, response) => {
   }
 });
 
-// -----------------------------------------------------------------
+// -------------------------------------Signup Route--------------------------------------
 app.get("/signup",(request,response) =>{
   response.render("signup",{
     csrfToken: request.csrfToken(),
   });
 })
 app.post("/users",async(request,response)=>{
-   console.log(request.body.firstName)
+  // Hash password using bcrypt
+   const hashedPwd = await bcrypt.hash(request.body.password,saltRounds);
   //  Have to create the user 
   try {
     const user = await User.create({
       firstName : request.body.firstName,
       lastName : request.body.lastName,
       email:request.body.email,
-      password:request.body.password,
+      password:hashedPwd,
     });
     request.logIn(user,(err)=>{
       if(err){
