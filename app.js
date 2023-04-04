@@ -2,7 +2,7 @@ const { response } = require("express");
 const express = require("express");
 const { request } = require("http");
 const app = express();
-const { Todo } = require("./models");
+const { Todo,User } = require("./models");
 const bodyParser = require("body-parser");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
@@ -15,6 +15,7 @@ var date = new Date();
 var rdate = date.toISOString().split('T')[0];
 const csrf = require("tiny-csrf");
 const cookieParser = require("cookie-parser");
+const e = require("express");
 app.use(cookieParser("ssh! some secret string"));
 app.use(csrf("this_should_be_32_character_long", ["POST", "PUT", "DELETE"]));
 
@@ -61,6 +62,28 @@ app.get("/todos", async (request, response) => {
     return response.status(422).json(error);
   }
 });
+
+app.get("/signup",(request,response) =>{
+  response.render("signup",{
+    csrfToken: request.csrfToken(),
+  });
+})
+app.post("/users",async(request,response)=>{
+   console.log(request.body.firstName)
+  //  Have to create the user 
+  try {
+    const user = await User.create({
+      firstName : request.body.firstName,
+      lastName : request.body.lastName,
+      email:request.body.email,
+      password:request.body.password,
+    });
+    response.redirect("/");
+  } catch (error) {
+    console.log(error);
+  }
+
+})
 
 app.post("/todos", async (request, response) => {
   // console.log("Creating a Todo", request.body);
