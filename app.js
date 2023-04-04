@@ -14,6 +14,7 @@ const e = require("express");
 const passport = require('passport');
 const connectEnsureLogin = require('connect-ensure-login');
 const session = require('express-session');
+const flash = require("connect-flash");
 const localStrategy = require('passport-local');
 const { error } = require("console");
 const bcrypt = require('bcrypt');
@@ -22,6 +23,7 @@ const saltRounds = 10;
 app.set("view engine", "ejs");
 // middlewares
 app.use(bodyParser.json());
+app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({extended:false}));
 app.use(cookieParser("ssh! some secret string"));
@@ -32,8 +34,13 @@ app.use(session({
     maxAge:24 * 60 * 60 * 1000 //24 hours
   }
 }))
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use((request, response, next)=> {
+  response.locals.messages = request.flash();
+  next();
+});
 
 // Authentication Strategy for passport
 passport.use(new localStrategy({
@@ -46,9 +53,8 @@ passport.use(new localStrategy({
    if(result){
      return done(null,user);
    }else{
-    return done("Invalid Password");
+    return done(null, false, { message: "Invalid password" });
    }
-
   }).catch((error)=>{
     return done(error);
   })
@@ -185,7 +191,7 @@ app.get("/login",(request,response)=>{
     csrfToken:request.csrfToken(),
   });
 })
-app.post("/session",passport.authenticate('local',{failureRedirect:"/login"}) ,(request,response)=>{
+app.post("/session",passport.authenticate('local',{failureRedirect:"/login",failureFlash: true,}) ,(request,response)=>{
   console.log(request.user);
   response.redirect("/todos");
 })
