@@ -11,29 +11,33 @@
       </head>
 <body>
     <div class="grid grid-cols-6">
-        <div class="col-start-3 col-span-2">
-          <%- include('header.ejs') %>
-          <h6 class="py-4">Signup as a new user</h6>
-          <form action="/session" method="post">
-            <input type="hidden" name="_csrf" value="<%= csrfToken%>">
-            <div class="py-3">
-                <label for="email">Email :</label>
-                <input type="email" name="email" class="border border-gray-300 text-gray-900 rounded p-2 w-full">
-            </div>
-            <div class="py-3">
-                <label for="password">Password :</label>
-                <input type="password" name="password" class="border border-gray-300 text-gray-900 rounded p-2 w-full">
-            </div>
-            <div class="py-3">
-              <button type="submit" class="text-white bg-green-600 hover:bg-green-800 font-medium rounded px-5 py-2">Sign in</button>
-            </div>
-          </form>
-          <% if(messages && messages.error && messages.error.length > 0)  { %>
-            <% for(var i=0; i<messages.error.length; i++) { %>
-                    <li class="text-red-600"> <%= messages.error[i] %></li>
+        <div class="col-start-3 col-span-2 py-10">
+          <div class="border-solid border-2 border-sky-500 py-10 px-10">
+            <%- include('header.ejs') %>
+            <h6 class="py-4 text-center">Signup as a <i>New user</i> </h6>
+            <form action="/session" method="post">
+              <input type="hidden" name="_csrf" value="<%= csrfToken%>">
+              <div class="py-3">
+                  <label for="email">Email :</label>
+                  <input type="email" name="email" id="email" class="border border-gray-300 text-gray-900 rounded p-2 w-full">
+              </div>
+              <div class="py-3">
+                  <label for="password">Password :</label>
+                  <input type="password" name="password" id="password" class="border border-gray-300 text-gray-900 rounded p-2 w-full">
+              </div>
+              <p class="py-2 px-2">New Here? <a href="/signup" class="text-green-600">Sign-up</a></p>
+              <div class="py-3">
+                <button type="submit" class="text-white bg-green-600 hover:bg-green-800 font-medium rounded px-5 py-2">Sign in</button>
+              </div>
+            </form>
+            <% if(messages && messages.error && messages.error.length > 0)  { %>
+              <% for(var i=0; i<messages.error.length; i++) { %>
+                      <li class="text-red-600"> <%= messages.error[i] %></li>
+              <% } %>
             <% } %>
-          <% } %>
+          </div>
         </div>
         </div>
+        <%- include('footer.ejs') %>
 </body>
 </html>

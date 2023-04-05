@@ -30,15 +30,3 @@ function deleteTodo(id){
      console.error(err);
    })
 }
-function validateForm() {
-  let title = document.forms["newTodo"]["title"].value;
-  let dueDate = document.forms["newTodo"]["dueDate"].value;
-  if (title == "") {
-    alert("Title Cannot be Empty");
-    return false;
-  }
- else if (dueDate == "") {
-    alert("DueDate Cannot be Empty");
-    return false;
-  }
-}

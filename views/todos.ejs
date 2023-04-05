@@ -11,18 +11,18 @@
  </head>
  <body>
   <div class="grid grid-cols-6">
-    <div class="col-start-3 col-span-2">
+    <div class="col-start-3 col-span-2 flex flex-row space-y-2 space-x-20">
       <%- include('header.ejs') %>
-      <a href="/signout" class="text-red-600">Signout</a>
+      <a href="/signout" class=" block text-red-600 ">Signout</a>
     </div>
   </div>
-  <form name="newTodo" action="/todos" method="post" ">
+  <form name="newTodo" class="flex justify-center" action="/todos" method="post" ">
     <input type="hidden" name="_csrf" value="<%= csrfToken%>">
-    <div class="flex gap-2 py-4">
-      <div class="flex-auto">
+    <div class="flex gap-2 py-4 w-2/3">
+      <div class="flex-auto w-64">
         <input type="text" name="title" class="border border-gray-300 text-gray-900 text-sm rounded w-full p-2" placeholder="What's next?" autofocus >
       </div>
-      <div class="flex-auto">
+      <div class="flex-auto w-32">
         <input type="date" name="dueDate" class="border border-gray-300 text-gray-900 text-sm rounded w-full p-2 leading-4">
       </div>
       <div class="flex-none">
@@ -38,6 +38,7 @@
     </div>
   </form>
   <%- include('todo.ejs') %>
+  <%- include('footer.ejs') %>
    <script src="script.js"></script>
  </body>
 </html>
