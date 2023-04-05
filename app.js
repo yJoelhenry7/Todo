@@ -171,6 +171,18 @@ app.get("/signup",(request,response) =>{
   });
 })
 app.post("/users",async(request,response)=>{
+  if(request.body.firstName.length===0 && request.body.lastName.length==0){
+    request.flash("error","Error! Please Enter First Name");
+    return response.redirect("/signup")
+  }
+  if(request.body.email.length===0){
+    request.flash("error","Error! Please Enter Email");
+    return response.redirect("/signup")
+  }
+  if(request.body.password.length===0){
+    request.flash("error","Error! Please Enter Password");
+    return response.redirect("/signup")
+  }
   // Hash password using bcrypt
    const hashedPwd = await bcrypt.hash(request.body.password,saltRounds);
   //  Have to create the user 

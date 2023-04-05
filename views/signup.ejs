@@ -18,20 +18,20 @@
             <form action="/users" method="post">
               <input type="hidden" name="_csrf" value="<%= csrfToken%>">
               <div class="py-3">
-                  <label for="firstName">First Name :</label>
-                  <input type="text" name="firstName" class="border border-gray-300 text-gray-900 rounded p-2 w-full">
+                  <label for="firstName"><span class="text-red-600">*</span>First Name : </label>
+                  <input type="text" name="firstName" id="firstName" class="border border-gray-300 text-gray-900 rounded p-2 w-full">
               </div>
               <div class="py-3">
                   <label for="lastName">Last Name :</label>
-                  <input type="text" name="lastName" class="border border-gray-300 text-gray-900 rounded p-2 w-full">
+                  <input type="text" name="lastName" id="lastName" class="border border-gray-300 text-gray-900 rounded p-2 w-full">
               </div>
               <div class="py-3">
-                  <label for="email">Email :</label>
-                  <input type="email" name="email" class="border border-gray-300 text-gray-900 rounded p-2 w-full">
+                  <label for="email"><span class="text-red-600">*</span>Email : </label>
+                  <input type="email" name="email" id="email" class="border border-gray-300 text-gray-900 rounded p-2 w-full">
               </div>
               <div class="py-3">
-                  <label for="password">Password :</label>
-                  <input type="password" name="password" class="border border-gray-300 text-gray-900 rounded p-2 w-full">
+                  <label for="password"><span class="text-red-600">*</span>Password : </label>
+                  <input type="password" name="password" placeholder="Password Must Be 8 Characters" class="border border-gray-300 text-gray-900 rounded p-2 w-full">
               </div>
               <p class="py-2 px-2">Already have an Account? <a href="/login" class="text-green-600">Sign-in</a></p>
               <div class="py-3">
@@ -39,6 +39,11 @@
               </div>
               
             </form>
+            <% if(messages && messages.error && messages.error.length > 0)  { %>
+              <% for(var i=0; i<messages.error.length; i++) { %>
+                      <li class="text-red-600"> <%= messages.error[i] %></li>
+              <% } %>
+            <% } %>
           </div>
         </div>
         </div>
