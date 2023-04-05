@@ -120,6 +120,14 @@ app.get("/todos",connectEnsureLogin.ensureLoggedIn(), async (request, response) 
   });
 });
 app.post("/todos",connectEnsureLogin.ensureLoggedIn(), async (request, response) => {
+  if(request.body.title.length === 0){
+    request.flash("error","Err! Please Enter a Title");
+    return response.redirect("/todos")
+  }
+  if(request.body.dueDate.length === 0){
+    request.flash("error","Err! Please Enter a DueDate");
+    return response.redirect("/todos")
+  }
   // console.log("Creating a Todo", request.body);
   try {
       await Todo.addTodo({

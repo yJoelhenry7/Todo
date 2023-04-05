@@ -57,6 +57,10 @@ module.exports = (sequelize, DataTypes) => {
       },
       dueDate: {
         type: DataTypes.DATEONLY,
+        allowNull:false,
+        validate:{
+          notNull:true,
+        }
       },
       completed:  {
         type: DataTypes.BOOLEAN,
